@@ -118,7 +118,9 @@ class Film extends Model {
 
         $formats = $this->getFormats();
 
-        $lines = file($uploadfile, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES);
+        $source = file($uploadfile, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES);
+        $lines = array_map('htmlentities', $source);
+
         $count = count($lines);
 
         for($i = 0; $i < $count; $i +=4) {
