@@ -1,0 +1,12 @@
+<h3>Info about Film "<?= $data[0]['title']?>"</h3><br>
+
+<p><b>Title: </b> <?= $data[0]['title']?></p>
+<p><b>Release Year: </b> <?= $data[0]['release_year']?></p>
+<p><b>Format: </b> <?= $data[0]['format']?></p>
+<p><b>Actors: </b></p>
+    <?php foreach($data[1] as $item) : ?>
+
+        <?=$item['name']?> <br>
+
+    <?php endforeach?>
+

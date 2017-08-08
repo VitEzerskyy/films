@@ -1,0 +1,20 @@
+
+<h3>Add new film</h3>
+
+<form action="" method="post" >
+    <input type="text" class="form-control" name="title" placeholder="Title" required><br>
+    <input type="number" class="form-control" name="release_year" min="1888" max="<?=date("Y")?>" placeholder="Release year" required><br>
+    <select  name="format_id" required>
+        <option value="" disabled selected>Select format</option>
+        <?php foreach($data as $item) : ?>
+        <option value="<?=$item['id'] ?>"><?=$item['format'] ?></option>
+        <?php endforeach?>
+    </select><br><br>
+    <div class="input_fields_wrap">
+        <button class="add_field_button">Add Actor</button>
+        <input type="text" class="form-control"  name="actor0" placeholder="Actor" required>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+    </form>
+
+<script src="/js/add.js"></script>
