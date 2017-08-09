@@ -6,8 +6,7 @@ class Film extends Model {
             return false;
         }
 
-        $data_strip = array_map('strip_tags', $data);
-        $userdata = array_map('htmlentities', $data_strip);
+        $userdata = array_map('htmlentities', $data);
 
         $title = $userdata['title'];
         $release_year = $userdata['release_year'];
@@ -53,24 +52,26 @@ class Film extends Model {
 
         if (isset($userdata["title"])) {
             $title = $userdata["title"];
+            $title = '%'.$title.'%';
 
             $sql = "select fl.id, fl.title,fl.release_year, f.format from film fl
                     inner join format f on f.id=fl.format_id
-                    where fl.title = :title order by fl.title";
+                    where fl.title LIKE :title order by fl.title";
 
             $result = $this->db->execute($sql, array(':title' => $title));
-            return $result;
+            return $this->filter($result);
         } elseif (isset($userdata["name"])) {
             $name = $userdata["name"];
+            $name = '%'.$name.'%';
 
             $sql = "select fl.id, fl.title,fl.release_year, f.format from film fl
                     inner join format f on f.id=fl.format_id
                     inner join film_actor fa on fa.film_id=fl.id
                     inner join actor a on a.id=fa.actor_id
-                    where a.name = :name order by fl.title";
+                    where a.name LIKE :name order by fl.title";
 
             $result = $this->db->execute($sql, array(':name' => $name));
-            return $result;
+            return $this->filter($result);
         }
 
         $sql = "select fl.id, fl.title,fl.release_year, f.format from film fl
@@ -78,7 +79,10 @@ class Film extends Model {
                 where 1 order by fl.title";
 
         $result = $this->db->execute($sql);
-        return $result;
+//        echo "<pre>";
+//        print_r($this->filter($result));
+//        echo "</pre>";
+        return $this->filter($result);
 
     }
 
@@ -96,7 +100,7 @@ class Film extends Model {
                     where fl.id = :id ";
 
         $result = $this->db->execute($sql, array(':id' => $id));
-        return $result;
+        return $this->filter($result);
     }
 
     public function getActors($id) {
@@ -105,7 +109,7 @@ class Film extends Model {
                     where fa.film_id = :id ";
 
         $result = $this->db->execute($sql, array(':id' => $id));
-        return $result;
+        return $this->filter($result);
     }
 
     public function delete ($id) {
@@ -165,6 +169,23 @@ class Film extends Model {
         }
 
         return true;
+    }
+
+    public function filter($arr) {
+        $filtered_result = [];
+        $new_arr = [];
+        foreach ($arr as $value) {
+            foreach ($value as $key => $new_value) {
+                if (strstr($new_value, '&')) {
+                    $new_arr[$key] = $new_value;
+                }else {
+                    $new_arr[$key] = htmlentities($new_value);
+                }
+            }
+            $filtered_result[] = $new_arr;
+        }
+
+        return $filtered_result;
     }
 
 }

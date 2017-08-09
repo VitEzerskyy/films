@@ -10,7 +10,7 @@ $(document).ready(function() {
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
             i++;
-            $(wrapper).append('<div><input type="text" class="form-control" name="actor'+ i +'" required placeholder="Actor"><a href="#" class="remove_field">Remove</a></div>'); //add input box
+            $(wrapper).append('<div><input type="text" class="form-control" name="actor'+ i +'" required placeholder="Actor" maxlength="50"><a href="#" class="remove_field">Remove</a></div>'); //add input box
         }
     });
 

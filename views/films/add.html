@@ -2,7 +2,7 @@
 <h3>Add new film</h3>
 
 <form action="" method="post" >
-    <input type="text" class="form-control" name="title" placeholder="Title" required><br>
+    <input type="text" class="form-control" name="title" placeholder="Title" maxlength="50" required><br>
     <input type="number" class="form-control" name="release_year" min="1888" max="<?=date("Y")?>" placeholder="Release year" required><br>
     <select  name="format_id" required>
         <option value="" disabled selected>Select format</option>
@@ -12,7 +12,7 @@
     </select><br><br>
     <div class="input_fields_wrap">
         <button class="add_field_button">Add Actor</button>
-        <input type="text" class="form-control"  name="actor0" placeholder="Actor" required>
+        <input type="text" class="form-control" maxlength="20"  name="actor0" placeholder="Actor" required>
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
     </form>
